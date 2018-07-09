@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<title>Titulo do texto</title>
+		<style type="text/css">
+			#map{
+			 height:400px;
+			 width:50%;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<div id="map"></div>
+		<script>
+			function initMap(){
+
+				//inicializando, aonde vai abrir o mapa e o zoom
+				var options = {
+					zoom:11,
+					center:{lat:-22.898803,lng:-43.4591382}
+				}
+
+				//Colocando o mapa em uma DIV
+				
+				var map = new google.maps.Map(document.getElementById('map'), options);
+
+
+				//Colocando na variavel todos os latslngs
+
+				var markerall = [{coords:{lat:-22.985434,lng:-43.3623177},content:'<h4>Teste1</h4>',color:"#AAA"},{coords:{lat:-22.9835129,lng:-43.3649302},content:'<h4>Teste2</h4>',color:"#AAA"}];
+
+
+				//Loop para colocar no mapa os lats e lngs
+				for(x=0;x<markerall.length;x++){
+					addMarker(markerall[x]);
+				}
+
+				//Função
+				function addMarker(props){
+					//colocando no mapa com icone circular
+					var marker = new google.maps.Marker({
+						position:props.coords,
+						map:map,
+						icon: {
+					        path: google.maps.SymbolPath.CIRCLE,
+					        scale: 10.5,
+					        fillColor: props.color,
+					        fillOpacity: 0.4,
+					        strokeWeight: 0.4
+					    },
+					});
+
+					//escrevendo no tab dos pontos
+					var infoWindow = new google.maps.InfoWindow({
+						content: props.content
+					});
+
+					//colocando esse tab neste circulo
+					marker.addListener('click',function(){
+						infoWindow.open(map, marker);
+					});
+				}
+			}
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=_YOU_API_KEY_&callback=initMap">
+		</script>
+	</body>
+</hmtl>
